@@ -1,0 +1,344 @@
+html, body {
+    height: 100%;                          /* Faz o body ocupar toda a tela */
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;                /* Coloca tudo em coluna (header, main, footer) */
+    font-family: 'Lora', serif;
+  background-color: #f5f5f5; /* cinza clarinho */
+color: #02132b; /* texto azul escuro */
+
+
+    color: black;
+}
+
+main {
+    flex: 1;   /* Faz o conteúdo ocupar todo o espaço disponível acima do footer */
+}
+
+header {
+    display: flex;
+    align-items: center;                /* Alinha verticalmente */
+    justify-content: center;            /* Centraliza o texto */
+    position: relative;
+    background: linear-gradient(to right, #ffffff 0%, #ffffff 100%);
+    border-bottom: 2px solid #02132b;
+    padding: 20px 40px;
+    min-height: 150px;
+    box-sizing: border-box;
+}
+
+.header-img {
+    position: absolute;
+    top: 20px;           /* distância do topo */
+    left: 30px;          /* distância da borda esquerda */
+    width: 430px;        /* aumenta o tamanho da imagem */
+    height: auto;        /* mantém proporção */
+}
+
+.header-text {
+    text-align: center;
+    width: 100%;
+}
+
+.title {
+    margin: 0;
+    font-size: 40px;
+    font-style: italic;
+}
+
+
+.title {
+    margin: 0px;
+    padding-top: 30px;
+    text-align: center;
+    font-size: 40px;
+    font-style: italic;
+}
+
+.tagline {
+    margin: 0px;
+    padding-bottom: 30px;
+    text-align: center;
+    font-size: 22px;
+    font-style: oblique;
+}
+
+.section1 {
+    border-bottom: 2px solid black;
+    min-height: 306px;
+}
+
+table.table1 {
+    margin-top: 50px;
+    margin-left: auto;
+    margin-right: auto;
+    font-size: 25px;
+    font-weight: 400;
+}
+
+td.label, td.sel {
+    width: 300px;
+    height: 50px;
+}
+
+select {
+    padding: 5px;
+    width: 200px;
+    font-size: 18px;
+    font-family: 'Lora', serif;
+    font-style: oblique;
+    font-weight: 400;
+    border-radius: 10px;
+    border: none;
+    outline: none;
+}
+
+.button {
+    margin: 25px;
+    text-align: center;
+    padding: 20px;
+}
+
+.btn {
+    padding: 5px;
+    width: 200px;
+    height: 50px;
+    font-size: 18px;
+    font-family: 'Lora', serif;
+    font-style: oblique;
+    font-weight: 900;
+    border: none;
+    background-color: #3793ee;
+    color: #ffffff;
+    border-radius: 10px;
+}
+
+.btn:hover {
+    background-color: #44c5f8;
+    color: #002244;
+    transition: 0.4s all;
+    cursor: pointer;
+}
+
+.prediction {
+    padding-bottom: 50px;
+    border-bottom: 2px solid;
+}
+
+table.table2 {
+    margin-top: 50px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+tr.r1 {
+    font-size: 25px;
+    font-weight: 400;
+}
+
+tr.r2 {
+    font-size: 20px;
+    font-style: oblique;
+    font-weight: 900;
+}
+
+table.table3 {
+    margin-top: 50px;
+    margin-left: auto;
+    margin-right: auto;
+    outline: 2px solid rgb(1, 4, 76);
+    padding: 20px;
+    border-radius: 5px;
+}
+
+td.result {
+    width: 300px;
+    height: 50px;
+}
+
+.button2 {
+    text-align: center;
+    margin-top: 45px;
+}
+
+#about {
+    text-align: center;
+    font-size: 30px;
+    color: #002244;
+}
+
+#introduction {
+    padding-left: 50px;
+    padding-right: 50px;
+    font-size: 20px;
+    font-style: oblique;
+}
+
+.footer {
+    width: 100%;
+    min-height: 150px; /* Aumenta a altura mínima para caber o texto */
+    background: linear-gradient(to bottom, #5b789e, #717e8f);
+    color: white;
+    display: flex;
+    align-items: center;     /* Centraliza verticalmente */
+    justify-content: center; /* Centraliza horizontalmente */
+    text-align: center;
+    flex-direction: column;  /* Empilha os textos um abaixo do outro */
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+#developer h1, 
+#developer h3 {
+    margin: 5px 0;
+}
+
+
+
+/* Media Queries for Responsive Design */
+@media screen and (max-width: 1200px) {
+    .title {
+        font-size: 50px;
+    }
+}
+
+@media screen and (max-width: 900px) {
+    .title {
+        font-size: 40px;
+    }
+}
+
+@media screen and (max-width: 740px) {
+    .title {
+        font-size: 30px;
+    }
+}
+
+@media screen and (max-width: 500px) {
+    .title {
+        font-size: 37px;
+    }
+    .tagline{
+        font-size: 20px;
+    }
+}
+
+.footer {
+    width: 100%;
+    min-height: 150px;
+    background: linear-gradient(to bottom, #5b789e, #717e8f);
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 20px;
+    box-sizing: border-box;
+    position: relative; /* Permite posicionar a imagem absolutamente */
+}
+
+#developer {
+    flex: 1; /* Faz o texto ocupar o espaço central */
+}
+
+#developer h1, 
+#developer h3 {
+    margin: 5px 0;
+}
+
+.footer-img {
+    position: absolute;
+    right: 30px; /* Distância da borda direita */
+    top: 50%;
+    transform: translateY(-50%); /* Centraliza verticalmente */
+    max-width: 400px; /* Ajuste o tamanho conforme necessário */
+    height: auto;
+}
+
+/* Responsividade para telas menores */
+@media screen and (max-width: 768px) {
+    .footer-img {
+        max-width: 100px;
+        right: 15px;
+    }
+}
+
+@media screen and (max-width: 500px) {
+    .footer-img {
+        max-width: 80px;
+        right: 10px;
+    }
+}
+
+.footer {
+    width: 100%;
+    min-height: 150px;
+    background: linear-gradient(to bottom, #5b789e, #717e8f);
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 20px;
+    box-sizing: border-box;
+    position: relative;
+}
+
+#developer {
+    flex: 1;
+}
+
+#developer h1, 
+#developer h3 {
+    margin: 5px 0;
+}
+
+.footer-img-right {
+    position: absolute;
+    right: 30px;
+    top: 50%;
+    transform: translateY(-50%);
+    max-width: 150px;
+    height: auto;
+}
+
+.footer-img-left {
+    position: absolute;
+    left: 30px; /* Distância da borda esquerda */
+    top: 50%;
+    transform: translateY(-50%);
+    max-width: 200px;
+    height: auto;
+}
+
+/* Responsividade para telas menores */
+@media screen and (max-width: 768px) {
+    .footer-img-right,
+    .footer-img-left {
+        max-width: 100px;
+    }
+    
+    .footer-img-right {
+        right: 15px;
+    }
+    
+    .footer-img-left {
+        left: 15px;
+    }
+}
+
+@media screen and (max-width: 500px) {
+    .footer-img-right,
+    .footer-img-left {
+        max-width: 80px;
+    }
+    
+    .footer-img-right {
+        right: 10px;
+    }
+    
+    .footer-img-left {
+        left: 10px;
+    }
+}

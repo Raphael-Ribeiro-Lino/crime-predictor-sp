@@ -1,0 +1,4 @@
+homicidio - 0  
+furto - 1  
+roubo - 2  
+furto e roubo de veiculo - 3

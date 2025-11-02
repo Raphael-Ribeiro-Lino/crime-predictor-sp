@@ -1,0 +1,10 @@
+Campinas - 0  
+Guarulhos - 1  
+Osasco - 2  
+Ribeirão Preto - 3  
+Santo André - 4  
+Sorocaba - 5  
+São Bernardo do Campo - 6  
+São José do Rio Preto - 7  
+São José dos Campos - 8  
+São Paulo - 9

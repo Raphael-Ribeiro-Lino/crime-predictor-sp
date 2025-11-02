@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Crime Rate Prediction</title>
+    <link rel="icon" href="static/images/favicon.png" type="image/png">
+    
+    <link rel="stylesheet" href="static/styles.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,500;1,400;1,500&display=swap');
+    </style>
+</head>
+
+<body>
+ <header>
+  <div class="header-text">
+    <h1 class="title">Previsão de Algumas Ocorrências Criminais em SP nos Próximos Anos</h1>
+    <h2 class="tagline">Análise Preditiva com Machine Learning em Alguns Munícipios do Estado de SP</h2>
+  </div>
+</header>         
+    <main>>
+    <section class="prediction">
+        <table class="table2">
+            <tr class="r1">
+                <td class="label">
+                    <label><b>Cidade</b> Selecionada:</label>
+                </td>
+                <td class="sel">
+                    <select>
+                        <option value="selected">{{city_name}}</option>
+                </td>
+            </tr>
+            <tr class="r1">
+                <td class="label">
+                    <label><b>Crime</b> Selecionado:</label>
+                </td>
+                <td class="sel">
+                    <select >
+                        <option value="selected">{{crime_type}}</option>
+                </td>
+            </tr>
+            <tr class="r1">
+                <td class="label">
+                    <label><b>Ano</b> Selecionado:</label>
+                </td>
+                <td class="sel">
+                    <select>
+                        <option value="selected">{{year}}</option>
+                </td>
+            </tr>
+        </table>
+
+        <table class="table3">         
+            
+            <tr class="r2"> 
+                <td class="result">Resultado da Previsão:</td>
+                <td class="result">{{crime_status}}</td>
+            </tr>
+            <tr class="r2">
+                <td class="result">Taxa de Crime Estimada:</td>
+                <td class="result">{{crime_rate}}</td>
+            </tr>
+            
+            <tr class="r2">
+                <td class="result">Número Estimado de Casos:</td>
+                <td class="result">{{cases}}</td>
+            </tr>
+            <tr class="r2">
+                <td class="result">População (Mil):</td>
+                <td class="result">{{population}}</td>
+            </tr>
+        </table>
+
+        <div class="button2" >
+            <a href="http://127.0.0.1:5000">
+                <input type="submit" class="btn" id="check_again" value="Prever Mais uma Vez!" >
+            </a>            
+        </div> 
+        
+    </section>
+    </main>
+
+      <footer class="footer">
+        <img src="../static/images/fatec-removebg-preview.png" alt="Logo Esquerda" class="footer-img-left">
+        <div id="developer">
+            <h1>Grupo: Machine Thinkers</h1>
+            <h3>Trabalho Final de IA: Wellison Inacio e Raphael Lino</h3>
+            <h3>Fatec Zona Sul - Prof. Edson Ceroni</h3>
+        </div>    
+        <img src="../static/images/Logo_SSP.png" alt="Logo" class="footer-img">
+      </footer>
+</body>
+</html>
