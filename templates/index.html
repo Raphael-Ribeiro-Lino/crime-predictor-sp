@@ -1,36 +1,55 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-BR">
   <head>
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Crime Rate Prediction</title>
-    <link rel="icon" href="static/images/favicon.png" type="image/png" />
 
-    <link rel="stylesheet" href="static/styles.css" />
-    <style>
-      @import url("https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,500;1,400;1,500&display=swap");
-    </style>
+    <!-- SEO -->
+    <meta
+      name="description"
+      content="Aplicação preditiva de ocorrências criminais em São Paulo usando Machine Learning."
+    />
+    <meta
+      name="keywords"
+      content="machine learning, predição, segurança pública, crimes, São Paulo, Fatec"
+    />
+    <meta name="author" content="Grupo Machine Thinkers - Fatec Zona Sul" />
+
+    <!-- Ícone -->
+    <link rel="icon" href="{{ url_for('static', filename='images/favicon.png') }}" type="image/png" />
+
+    <!-- Fonte e Estilo -->
+    <link
+      href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,500;1,400;1,500&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}" />
   </head>
 
   <body>
-<header>
-  <div class="header-text">
-    <h1 class="title">Previsão de Algumas Ocorrências Criminais em SP nos Próximos Anos</h1>
-    <h2 class="tagline">Análise Preditiva com Machine Learning em Alguns Munícipios do Estado de SP</h2>
-  </div>
-</header>
+    <header>
+      <div class="header-text">
+        <h1 class="title">Previsão de Ocorrências Criminais em SP</h1>
+        <h2 class="tagline">
+          Análise Preditiva com Machine Learning em Municípios do Estado de São Paulo
+        </h2>
+      </div>
+    </header>
 
-  <main>
-    <section class="section1">
-      <form action="/predict" method="POST">
-        <table class="table1">
-          <tr>
-            <td class="label">
-              <label>Selecione uma <b>Cidade:</b></label>
-            </td>
-            <td class="sel">
-              <select name="city">
+    <main>
+      <section class="form-section">
+        <form action="/predict" method="POST" aria-labelledby="form-title">
+          <h2 id="form-title">Faça uma previsão</h2>
+
+          <fieldset>
+            <legend>Selecione os parâmetros</legend>
+
+            <div class="form-group">
+              <label for="city">Cidade:</label>
+              <select id="city" name="city" required>
+                <option value="" disabled selected>Selecione uma cidade</option>
                 <option value="0">Campinas</option>
                 <option value="1">Guarulhos</option>
                 <option value="2">Osasco</option>
@@ -42,62 +61,67 @@
                 <option value="8">São José dos Campos</option>
                 <option value="9">São Paulo</option>
               </select>
-            </td>
-          </tr>
+            </div>
 
-          <tr>
-            <td class="label">
-              <label>Selecione um <b>Crime:</b></label>
-            </td>
-            <td class="sel">
-              <select name="crime">
+            <div class="form-group">
+              <label for="crime">Tipo de Crime:</label>
+              <select id="crime" name="crime" required>
+                <option value="" disabled selected>Selecione um tipo</option>
                 <option value="0">Homicídio Doloso</option>
                 <option value="1">Furto</option>
                 <option value="2">Roubo</option>
                 <option value="3">Furto e Roubo de Veículo</option>
               </select>
-            </td>
-          </tr>
+            </div>
 
-          <tr>
-            <td class="label">
-              <label>Selecione um <b>Ano:</b></label>
-            </td>
-            <td class="sel">
-              <select name="year" id="year-dropdown"></select>
-            </td>
-          </tr>
-        </table>
+            <div class="form-group">
+              <label for="year">Ano:</label>
+              <select id="year-dropdown" name="year" required></select>
+            </div>
 
-        <div class="button">
-          <input type="submit" class="btn" id="predict_button" value="Prever Casos" >
-        </div>
-      </form>
-    </section>
+            <button type="submit" class="btn" id="predict_button">Prever Casos</button>
+          </fieldset>
+        </form>
+      </section>
 
-    <section>
-      <h2 id="about">Como Funciona?</h2>
-
-      <p id="introduction">
-        Esta aplicação apresenta os resultados de análises preditivas realizadas por um modelo de Machine Learning (Random Forest).
-O sistema tem como objetivo estimar a probabilidade de ocorrência de crimes específicos e prever o número de casos esperados nos 20 bairros mais perigosos da capital de São Paulo, com base em três parâmetros principais: cidade, tipo de crime e ano selecionado.
-        <br />
-        <br />
-A interface foi desenvolvida para tornar essas previsões acessíveis e intuitivas, oferecendo uma ferramenta de apoio à análise e ao planejamento de segurança pública.
-Os resultados são gerados a partir de dados históricos e padrões identificados pelo modelo, permitindo visualizar tendências, riscos e possíveis cenários futuros de forma simples, interativa e baseada em evidências.
-        <br /><br />
-      </p>
-    </section>
+      <section id="about" class="info-section">
+        <h2>Como Funciona?</h2>
+        <p>
+          Esta aplicação apresenta os resultados de análises preditivas realizadas por um modelo de
+          Machine Learning (Random Forest).
+          <br /><br />
+          O sistema estima a probabilidade de ocorrência de crimes específicos e prevê o número de
+          casos esperados em municípios de São Paulo, com base em três parâmetros principais:
+          <strong>cidade, tipo de crime e ano selecionado</strong>.
+          <br /><br />
+          A interface foi desenvolvida para tornar essas previsões acessíveis e intuitivas,
+          oferecendo uma ferramenta de apoio à análise e ao planejamento de segurança pública. Os
+          resultados são baseados em dados históricos e padrões identificados pelo modelo,
+          permitindo visualizar tendências e possíveis cenários futuros de forma clara e fundamentada.
+        </p>
+      </section>
     </main>
-          <footer class="footer">
-        <img src="../static/images/fatec-removebg-preview.png" alt="Logo Esquerda" class="footer-img-left">
-        <div id="developer">
-            <h1>Grupo: Machine Thinkers</h1>
-            <h3>Trabalho Final de IA: Wellison Inacio e Raphael Lino</h3>
-            <h3>Fatec Zona Sul - Prof. Edson Ceroni</h3>
-        </div>    
-        <img src="../static/images/Logo_SSP.png" alt="Logo" class="footer-img">
-      </footer>
-    <script src="static/main.js"></script>
+
+    <footer class="footer">
+      <img
+        src="{{ url_for('static', filename='images/fatec-removebg-preview.png') }}"
+        alt="Logo da FATEC Zona Sul"
+        class="footer-img-left"
+      />
+
+      <div id="developer">
+        <h1>Grupo: Machine Thinkers</h1>
+        <h3>Trabalho Final de IA: Wellison Inacio e Raphael Lino</h3>
+        <h3>Fatec Zona Sul - Prof. Edson Ceroni</h3>
+      </div>
+
+      <img
+        src="{{ url_for('static', filename='images/Logo_SSP.png') }}"
+        alt="Logo da Secretaria de Segurança Pública"
+        class="footer-img"
+      />
+    </footer>
+
+    <script src="{{ url_for('static', filename='main.js') }}" defer></script>
   </body>
 </html>
