@@ -37,8 +37,7 @@ crimes_names = {
     '3': 'Furto e Roubo de Veiculo'
 }
 
-# NOTA: aqui os valores em population_ranges estão NA ESCALA "população / 100000"
-# ex: 11.45139 representa 11.45139 * 100000 = 1.145.139 habitantes
+# População (em unidades de 100 mil habitantes)
 population_ranges = {
     '0': [9.69396, 10.80999, 11.38309],
     '1': [10.72717, 12.21979, 12.91771],
@@ -49,7 +48,7 @@ population_ranges = {
     '6': [7.03177, 7.65463, 8.10729],
     '7': [3.58523, 4.08435, 4.80439],
     '8': [5.39313, 6.27544, 6.97428],
-    '9': [10.434252, 11.253503, 11.451245]  # EXEMPLO: usei valores plausíveis (corrija se quiser)
+    '9': [104.34252, 112.53503, 114.51245]  # Corrigido (São Paulo)
 }
 
 # ================== MAPEAMENTO DE CORES E EMOJIS ==================
@@ -69,19 +68,13 @@ emoji_map = {
     "Criminalidade Muito Alta": "🔴"
 }
 
-# ================== CALCULA UMA VEZ OS PERCENTIS ==================
-# Construção do histórico para determinar os percentis do crime_rate
-historical_data = []
-for y in range(2001, 2024):
-    for c in range(10):
-        for cr in range(4):
-            pop = population_ranges[str(c)][-1]  # pop está em "por 100k"
-            # garantir que passamos valores numéricos corretos
-            X = [[float(y), float(c), float(pop), float(cr)]]
-            pred = model.predict(X)[0]
-            historical_data.append(pred)
-
-p20, p40, p60, p80 = np.percentile(historical_data, [20, 40, 60, 80])
+# ================== MÉDIAS NACIONAIS (por 100 mil hab.) ==================
+national_avg = {
+    '0': 18,   # Homicídio Doloso
+    '1': 400,  # Furto
+    '2': 350,  # Roubo
+    '3': 178   # Furto e Roubo de Veículo
+}
 
 # ================== ROTAS ==================
 @app.route('/')
@@ -90,59 +83,104 @@ def index():
 
 @app.route('/predict', methods=['POST'])
 def predict_result():
-    # Recebe string do form, converte para int
-    city_code = int(request.form["city"])
-    crime_code = int(request.form['crime'])
-    year = int(request.form['year'])
+    city_code = request.form["city"]
+    crime_code = request.form["crime"]
+    year = int(request.form["year"])
 
-    # Seleção populacional com taxa de crescimento (pop em escala "por 100k")
+    # Seleciona base populacional e crescimento
     if year <= 2009:
-        pop = population_ranges[str(city_code)][0]
+        pop = population_ranges[city_code][0]
         base_year, growth_rate = 2001, 0.01
     elif year <= 2021:
-        pop = population_ranges[str(city_code)][1]
+        pop = population_ranges[city_code][1]
         base_year, growth_rate = 2010, 0.0015
     else:
-        pop = population_ranges[str(city_code)][2]
+        pop = population_ranges[city_code][2]
         base_year, growth_rate = 2022, 0.0015
 
-    # aplica crescimento percentual simples sobre a base (pop ainda "por 100k")
-    pop = pop + growth_rate * (year - base_year) * pop  # pop continua sendo "pop/100k"
+    # População real (em pessoas)
+    pop_real = pop * 100000
+    pop_real = pop_real * (1 + growth_rate * (year - base_year))
+    pop_for_model = pop_real / 100000  # volta à escala do modelo
 
-    # Prepara entrada para o modelo: sempre floats
-    X_input = [[float(year), float(city_code), float(pop), float(crime_code)]]
-    crime_rate = float(model.predict(X_input)[0])  # valor em "ocorrências por 100k hab."
+    # Predição
+    X_input = [[float(year), float(city_code), float(pop_for_model), float(crime_code)]]
+    crime_rate = float(model.predict(X_input)[0])  # valor em ocorrências por 100 mil hab.
 
-    # Classificação de status a partir dos percentis pré-calculados
-    if crime_rate <= p20:
-        crime_status = "Criminalidade Muito Baixa"
-    elif crime_rate <= p40:
-        crime_status = "Criminalidade Baixa"
-    elif crime_rate <= p60:
-        crime_status = "Criminalidade Média"
-    elif crime_rate <= p80:
-        crime_status = "Criminalidade Alta"
+    # ================== CLASSIFICAÇÃO (MÉDIAS NACIONAIS - 2024) ==================
+    if crime_code == '0':  # Homicídio Doloso
+        if crime_rate <= 10:
+            crime_status = "Criminalidade Muito Baixa"
+        elif crime_rate <= 18:
+            crime_status = "Criminalidade Baixa"
+        elif crime_rate <= 30:
+            crime_status = "Criminalidade Média"
+        elif crime_rate <= 50:
+            crime_status = "Criminalidade Alta"
+        else:
+            crime_status = "Criminalidade Muito Alta"
+
+    elif crime_code == '1':  # Furto
+        if crime_rate <= 200:
+            crime_status = "Criminalidade Muito Baixa"
+        elif crime_rate <= 400:
+            crime_status = "Criminalidade Baixa"
+        elif crime_rate <= 700:
+            crime_status = "Criminalidade Média"
+        elif crime_rate <= 1000:
+            crime_status = "Criminalidade Alta"
+        else:
+            crime_status = "Criminalidade Muito Alta"
+
+    elif crime_code == '2':  # Roubo
+        if crime_rate <= 150:
+            crime_status = "Criminalidade Muito Baixa"
+        elif crime_rate <= 350:
+            crime_status = "Criminalidade Baixa"
+        elif crime_rate <= 600:
+            crime_status = "Criminalidade Média"
+        elif crime_rate <= 900:
+            crime_status = "Criminalidade Alta"
+        else:
+            crime_status = "Criminalidade Muito Alta"
+
+    elif crime_code == '3':  # Furto e Roubo de Veículo
+        if crime_rate <= 80:
+            crime_status = "Criminalidade Muito Baixa"
+        elif crime_rate <= 178:
+            crime_status = "Criminalidade Baixa"
+        elif crime_rate <= 300:
+            crime_status = "Criminalidade Média"
+        elif crime_rate <= 500:
+            crime_status = "Criminalidade Alta"
+        else:
+            crime_status = "Criminalidade Muito Alta"
+
+    # Casos absolutos
+    cases = math.ceil(crime_rate * pop_for_model)
+
+    # Texto comparativo (opcional)
+    avg = national_avg[crime_code]
+    if crime_rate > avg:
+        comparativo = f"acima da média nacional de {avg} por 100 mil hab."
+    elif crime_rate < avg:
+        comparativo = f"abaixo da média nacional de {avg} por 100 mil hab."
     else:
-        crime_status = "Criminalidade Muito Alta"
+        comparativo = f"igual à média nacional de {avg} por 100 mil hab."
 
-    # Cálculo de casos: crime_rate (por 100k) * pop (pop em unidades de 100k) = casos absolutos
-    cases = math.ceil(crime_rate * pop)
-
-    # População absoluta (em número de pessoas)
-    population_absolute = int(round(pop * 100000))
-
-    # Retorna template com dados
+    # Retorna para o template
     return render_template(
         'result.html',
-        city_name=city_names[str(city_code)],
-        crime_type=crimes_names[str(crime_code)],
+        city_name=city_names[city_code],
+        crime_type=crimes_names[crime_code],
         year=year,
         crime_status=crime_status,
         crime_rate=crime_rate,
         cases=cases,
-        population=population_absolute,
+        population=int(round(pop_real)),
         color_classes=color_classes,
-        emoji_map=emoji_map
+        emoji_map=emoji_map,
+        comparativo=comparativo
     )
 
 if __name__ == '__main__':
